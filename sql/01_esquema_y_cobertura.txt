@@ -1,0 +1,24 @@
+-- PASO 1A: lista las columnas disponibles; esta consulta mira metadatos.
+-- Ejecuta antes de las otras consultas y compara los nombres con codebook.md.
+SELECT
+  column_name,
+  data_type
+FROM `gdelt-bq.full.INFORMATION_SCHEMA.COLUMNS`
+WHERE table_name = 'events'
+ORDER BY ordinal_position;
+
+-- PASO 1B: revisa las fechas/años que anuncia el esquema de la tabla.
+-- Esta consulta sí lee datos. Haz una consulta de prueba (dry run) primero.
+SELECT
+  MIN(Year) AS primer_anio,
+  MAX(Year) AS ultimo_anio,
+  COUNT(*) AS filas
+FROM `gdelt-bq.full.events`;
+
+-- PASO 1C: comprueba si hay URL de fuente en algunas filas de 1994.
+-- Ejecuta solo si SOURCEURL aparece en 1A. Estima bytes antes de ejecutar.
+SELECT
+  COUNT(*) AS filas_1994,
+  COUNTIF(SOURCEURL IS NOT NULL AND SOURCEURL != '') AS filas_con_url
+FROM `gdelt-bq.full.events`
+WHERE Year = 1994;

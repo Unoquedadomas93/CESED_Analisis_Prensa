@@ -1,0 +1,32 @@
+-- PASO 5A: familias de eventos (CAMEO) más frecuentes en Colombia, 1994.
+-- No equivalen a temas ni a posturas editoriales.
+SELECT
+  EventRootCode,
+  QuadClass,
+  COUNT(*) AS filas_evento,
+  SUM(NumMentions) AS menciones_reportadas,
+  SUM(NumArticles) AS articulos_reportados
+FROM `gdelt-bq.full.events`
+WHERE Year = 1994
+  AND ActionGeo_CountryCode = 'CO'
+GROUP BY EventRootCode, QuadClass
+ORDER BY filas_evento DESC
+LIMIT 30;
+
+-- PASO 5B: actores más frecuentes en la misma selección.
+-- UNION ALL pone Actor1 y Actor2 en una sola lista para poder contarlos.
+WITH actores AS (
+  SELECT Actor1Name AS actor FROM `gdelt-bq.full.events`
+  WHERE Year = 1994 AND ActionGeo_CountryCode = 'CO'
+  UNION ALL
+  SELECT Actor2Name AS actor FROM `gdelt-bq.full.events`
+  WHERE Year = 1994 AND ActionGeo_CountryCode = 'CO'
+)
+SELECT
+  actor,
+  COUNT(*) AS apariciones
+FROM actores
+WHERE actor IS NOT NULL AND actor != ''
+GROUP BY actor
+ORDER BY apariciones DESC
+LIMIT 30;

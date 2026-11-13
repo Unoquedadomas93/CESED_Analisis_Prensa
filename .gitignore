@@ -1,0 +1,12 @@
+# Credenciales y secretos
+*.json
+*.pem
+*.key
+.env
+.env.*
+!.env.example
+
+# Exportaciones voluminosas de datos
+results/*.csv
+results/*.parquet
+results/*.jsonl

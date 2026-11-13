@@ -1,0 +1,23 @@
+-- PASO 6: muestra manejable para validar eventos próximos al fallo.
+-- Ajusta el rango solo después de revisar la estimación de bytes.
+-- Si SOURCEURL no existe en el esquema o aparece vacío, quita esa columna.
+SELECT
+  SQLDATE,
+  Actor1Name,
+  Actor2Name,
+  EventCode,
+  EventRootCode,
+  NumMentions,
+  NumSources,
+  NumArticles,
+  AvgTone,
+  ActionGeo_FullName,
+  SOURCEURL
+FROM `gdelt-bq.full.events`
+WHERE SQLDATE BETWEEN 19940501 AND 19940510
+  AND ActionGeo_CountryCode = 'CO'
+ORDER BY NumMentions DESC
+LIMIT 100;
+
+-- Clasifica fuera de BigQuery cada fila como:
+-- directamente relacionada / contexto posible / sin relación / imposible de verificar.

@@ -1,0 +1,19 @@
+-- PASO 2: inspecciona hasta 20 filas de eventos ubicados en Colombia en 1994.
+-- Confirma primero en 01 que existen estas columnas.
+-- LIMIT limita filas mostradas, no necesariamente los bytes leídos.
+SELECT
+  SQLDATE,
+  Actor1Name,
+  Actor2Name,
+  EventCode,
+  EventRootCode,
+  NumMentions,
+  NumArticles,
+  AvgTone,
+  ActionGeo_FullName,
+  ActionGeo_CountryCode
+FROM `gdelt-bq.full.events`
+WHERE Year = 1994
+  AND ActionGeo_CountryCode = 'CO'
+ORDER BY SQLDATE
+LIMIT 20;

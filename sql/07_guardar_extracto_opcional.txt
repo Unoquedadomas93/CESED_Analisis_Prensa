@@ -1,0 +1,29 @@
+-- PASO 7 (opcional): guarda una copia de trabajo reducida en TU proyecto.
+-- Primero crea el dataset sentencia_1994 desde BigQuery Studio si aún no existe.
+-- Sustituye el proyecto si el ID de tu proyecto es diferente.
+-- Revisa la consulta de prueba. Esta operación crea/reescribe la tabla destino.
+CREATE OR REPLACE TABLE
+  `cesed-gdelt-sentencia-1994.sentencia_1994.colombia_events_1993_1995` AS
+SELECT
+  SQLDATE,
+  Year,
+  MonthYear,
+  Actor1Name,
+  Actor1CountryCode,
+  Actor2Name,
+  Actor2CountryCode,
+  EventCode,
+  EventRootCode,
+  QuadClass,
+  GoldsteinScale,
+  NumMentions,
+  NumSources,
+  NumArticles,
+  AvgTone,
+  ActionGeo_FullName,
+  ActionGeo_CountryCode
+FROM `gdelt-bq.full.events`
+WHERE Year BETWEEN 1993 AND 1995
+  AND ActionGeo_CountryCode = 'CO';
+
+-- Recuerda: Sandbox puede expirar tablas después de 60 días.

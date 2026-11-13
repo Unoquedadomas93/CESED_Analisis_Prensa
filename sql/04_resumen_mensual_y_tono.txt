@@ -1,0 +1,14 @@
+-- PASO 4: resume eventos ubicados en Colombia por mes, 1993-1995.
+-- Es contexto histórico general, no una medición de artículos sobre C-221.
+-- Dry run obligatorio: puede leer una parte grande de la tabla.
+SELECT
+  MonthYear AS anio_mes,
+  COUNT(*) AS eventos_codificados,
+  SUM(NumMentions) AS menciones_reportadas,
+  SUM(NumArticles) AS articulos_reportados,
+  AVG(AvgTone) AS tono_promedio
+FROM `gdelt-bq.full.events`
+WHERE Year BETWEEN 1993 AND 1995
+  AND ActionGeo_CountryCode = 'CO'
+GROUP BY MonthYear
+ORDER BY MonthYear;

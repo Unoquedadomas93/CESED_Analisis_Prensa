@@ -1,0 +1,27 @@
+-- PASO 3: candidatos a eventos en Colombia alrededor de la decisión.
+-- Fecha del fallo: 5 de mayo de 1994. Empieza con abril-junio.
+-- Esto NO busca palabras en artículos: GDELT Events no contiene el texto del artículo.
+-- Activa consulta de prueba y revisa los bytes antes de ejecutar.
+SELECT
+  SQLDATE,
+  Actor1Name,
+  Actor1CountryCode,
+  Actor2Name,
+  Actor2CountryCode,
+  EventCode,
+  EventRootCode,
+  QuadClass,
+  GoldsteinScale,
+  NumMentions,
+  NumSources,
+  NumArticles,
+  AvgTone,
+  ActionGeo_FullName
+FROM `gdelt-bq.full.events`
+WHERE SQLDATE BETWEEN 19940401 AND 19940630
+  AND ActionGeo_CountryCode = 'CO'
+ORDER BY SQLDATE, NumMentions DESC
+LIMIT 500;
+
+-- Revisa manualmente los resultados; si la tabla contiene muchos candidatos,
+-- elimina LIMIT solo tras revisar los bytes y guarda resultados pequeños.
